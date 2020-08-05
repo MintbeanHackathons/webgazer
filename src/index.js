@@ -37,20 +37,22 @@ function ready(fn) {
     document.addEventListener("DOMContentLoaded", fn);
   }
 }
-let start = false;
-webgazer
-  .setGazeListener(function (data, elapsedTime) {
-    if (data == null) {
-      return;
-    }
-    if (start) {
-      drawDot(data.x + "px", data.y + "px");
-    }
-  })
-  .begin();
 
 ready(() => {
-  document.getElementById("start").onclick = function (e) {    
+  let start = false;
+  webgazer
+    .setGazeListener(function (data, elapsedTime) {
+      if (data == null) {
+        return;
+      }
+      if (start) {
+        drawDot(data.x + "px", data.y + "px");
+      }
+    })
+    .begin();
+  document.getElementById("start").onclick = function (e) {
     start = true;
+    document.getElementById("instructions").innerText =
+      "Great! Now the blue dots should track where you are looking!";
   };
 });
