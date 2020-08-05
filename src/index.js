@@ -3,8 +3,9 @@ webgazer.setRegression("ridge");
 
 window.saveDataAcrossSessions = true;
 
+const dots = [];
 function drawDot(x, y, color = "blue", r = "10px") {
-  const dot = document.createElement("div");  
+  const dot = document.createElement("div");
   dot.style.position = "absolute";
   dot.style.width = r;
   dot.style.height = r;
@@ -29,12 +30,27 @@ calDot("1%", "50%");
 calDot("1%", "0px");
 calDot("50%", "50%");
 
+function ready(fn) {
+  if (document.readyState != "loading") {
+    fn();
+  } else {
+    document.addEventListener("DOMContentLoaded", fn);
+  }
+}
+let start = false;
 webgazer
   .setGazeListener(function (data, elapsedTime) {
     if (data == null) {
       return;
     }
-
-    drawDot(data.x + "px", data.y + "px");
+    if (start) {
+      drawDot(data.x + "px", data.y + "px");
+    }
   })
   .begin();
+
+ready(() => {
+  document.getElementById("start").onclick = function (e) {    
+    start = true;
+  };
+});
